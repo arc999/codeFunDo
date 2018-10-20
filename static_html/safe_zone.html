@@ -5,22 +5,20 @@
             ZERO PANIC
         </title>
         <script>
-            function calibrate(){
-                
-            }
+            var current_pos;
+
         </script>
     </head>
-    <body>
+    <body onload="init">
         <h1>
             ZERO PANIC
         </h1>
         <canvas id="compass">
 
         </canvas>
-        <p id="messages">
-            Move out in an open area and press the button below.<br>
-            After pressing the button move in any direction for 5metres to calibrate.
-            <button onclick="calibrate">Calibrate</button>
+        <p>
+            Follow the compass to reach a safe position.
         </p>
+        
     </body>
 </html>
