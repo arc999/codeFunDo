@@ -1,13 +1,17 @@
 var current_position;
+
+ nnn
 var destination;
 var point_direction;
 var watch;
 
 function update_point_direction(){
-    //north is 0 degrees
-    //use cosine law to calculate new direction
+    
     
 }
+
+
+
 
 function destination_reached(){
     function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2){
@@ -57,26 +61,44 @@ function init(){
 
     watch = navigator.geolocation.watchPosition(geo_success,geo_error,geo_options);
 
-    function get_destination(){
-        var url = "get_safe_zone";
-        var params = "latitude="+current_position.latitude+"&longitude="+current_position.longitude;
-        var http = new XMLHttpRequest();
+    // function get_destination(){
+    //     var url = "get_safe_zone";
+    //     var params = "latitude="+current_position.latitude+"&longitude="+current_position.longitude;
+    //     var http = new XMLHttpRequest();
         
-        http.open("GET", url+"?"+params, true);
-        http.onreadystatechange = function(){
-            if(http.readyState == 4 && http.status == 200){
-                destination = JSON.parse(http.responseText);
-            }
-        }
-    }
-    destination = get_destination();
+    //     http.open("GET", url+"?"+params, true);
+    //     http.onreadystatechange = function(){
+    //         if(http.readyState == 4 && http.status == 200){
+    //             destination = JSON.parse(http.responseText);
+    //         }
+    //     }
+    // }
+    // destination = get_destination();
     window.addEventListener('deviceorientation', handleOrientation);
+
+
+function animate_ball(delta){
+    
+
+
+    document.querySelector('.ball').style.top  = (90*( 1 - Math.cos(delta*3.14/180))) + "px" ;
+    document.querySelector('.ball').style.left = (90*(1 + Math.sin(delta*3.14/180))) + "px" ;
+ 
+
+
 }
 
-function handle_orientation(event){
+
+
+
+
+function handleOrientation(event){
     var delta = point_direction - event.alpha;
     if(delta < 0){
         delta += 360;
     }
-    animate_ball(delta);
-} 
+   animate_ball(delta);
+}
+
+}
+
