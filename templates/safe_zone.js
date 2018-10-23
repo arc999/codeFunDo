@@ -1,17 +1,58 @@
 var current_position;
 
- nnn
+var angle;
 var destination;
-var point_direction;
+var del;
 var watch;
+var latitude;
+var longitude;
 
-function update_point_direction(){
-    
-    
+
+
+function init() {
+
+
+
+function success(position) {
+    var initialLatitude  = position.coords.latitude;
+    var initialLongitude = position.coords.longitude;
+      }
+
+function error() {
+                 alert("Error");
+              }
+
+
+navigator.geolocation.getCurrentPosition(success, error);
+
+
+
+
+function findAngle(){
+    function success(position) {
+     latitude  = position.coords.latitude;
+     longitude = position.coords.longitude;
+      }
+
+
+    function error() {
+                 alert("Error");
+              }
+
+
+    navigator.geolocation.getCurrentPosition(success, error);
+ 
+
+    var theta = 180*atan2((initialLatitude - latitude), (initialLongitude - longitude))/Math.PI ;
+    var fi = 180*atan2((destination.latitude - initialLatitude), (destination.longitude - initialLongitude))/Math.PI ;
+   
+    del = theta - fi; 
+
+
+
 }
 
-
-
+document.getElementById("ref").addEventListener("click",findAngle);
 
 function destination_reached(){
     function getDistanceFromLatLonInKm(lat1,lon1,lat2,lon2){
@@ -28,16 +69,14 @@ function destination_reached(){
         return d;
     }
       
-    function deg2rad(deg){
-        return deg * (Math.PI/180)
-    }
+   
 
     var dist = getDistanceFromLatLonInKm(current_position.latitude,current_position.longitude,destination.latitude,destination.longitude);
     if(dist < 0.03)return true;
     return false;
 }
 
-function init(){
+
     function geo_success(position){
         current_position = {
             latitude    : position.coords.latitude,
@@ -46,7 +85,7 @@ function init(){
         if(destination_reached()){
             document.location.href = "/destination_reached";
         }
-        update_point_direction();
+        
     }
       
     function geo_error(){
@@ -93,10 +132,9 @@ function animate_ball(delta){
 
 
 function handleOrientation(event){
-    var delta = point_direction - event.alpha;
-    if(delta < 0){
-        delta += 360;
-    }
+    var delta = (del + event.alpha)%360;
+    
+    
    animate_ball(delta);
 }
 
